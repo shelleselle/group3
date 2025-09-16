@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Form</title>
+    <link rel="icon" type="image/x-icon" href="logo2.png">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -20,9 +21,15 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       width: 300px;
+      text-align: center;
+    }
+    .logo-container {
+      margin-bottom: 20px;
+    }
+    .logo-container img {
+      height: 60px; /* adjust logo size */
     }
     .login-container h2 {
-      text-align: center;
       margin-bottom: 20px;
     }
     .login-container input {
@@ -61,6 +68,11 @@
 <body>
 
   <div class="login-container">
+    <!-- Single logo -->
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo">
+    </div>
+    
     <h2>Login</h2>
     <input type="text" id="username" placeholder="Username" required>
     <input type="password" id="password" placeholder="Password" required>
