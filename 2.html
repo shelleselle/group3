@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geronimo Draftline 3</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: #1e1e2f;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
+    }
+
+    .history {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+
+    .history p {
+      background: #2e2e42;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    /* Main content */
+    .main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: #FFC5D3;
+      color: white;
+      padding: 15px 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .content {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .status {
+      font-size: 24px;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 320px;
+    }
+
+    .safe {
+      background: #d4edda;
+      color: #155724;
+      border: 2px solid #c3e6cb;
+    }
+
+    .alert {
+      background: #f8d7da;
+      color: #721c24;
+      border: 2px solid #f5c6cb;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .btn {
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .btn-simulate {
+      background: green;
+    }
+    .btn-simulate:hover {
+      background: #e5b2b3;
+    }
+
+    .btn-resolve {
+      background: #dc3545;
+      display: none;
+    }
+    .btn-resolve:hover {
+      background: #b02a37;
+    }
+
+    .detector-info {
+      margin-top: 15px;
+      font-size: 16px;
+      text-align: center;
+      display: none;
+    }
+
+    .detector-info span {
+      display: block;
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Detection History</h2>
+    <div class="history" id="history">
+      <p>No vape detected yet.</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="header">Vape Detection Dashboard</div>
+    <div class="content">
+      <div id="statusBox" class="status safe">Status: SAFE</div>
+
+      <!-- Detector Info (hidden until detection) -->
+      <div id="detectorInfo" class="detector-info"></div>
+
+      <button class="btn btn-simulate" onclick="simulateDetection()">Sample Simulation</button>
+      <button id="resolveBtn" class="btn btn-resolve" onclick="resolveIssue()">Issue Resolved</button>
+    </div>
+  </div>
+
+  <script>
+    const statusBox = document.getElementById("statusBox");
+    const historyBox = document.getElementById("history");
+    const resolveBtn = document.getElementById("resolveBtn");
+    const detectorInfo = document.getElementById("detectorInfo");
+
+    // Example detectors (you can expand this list or fetch from backend)
+    const detectors = [
+      { id: "VD-1001", building: "A", floor: "1st Floor" },
+      { id: "VD-1002", building: "B", floor: "2nd Floor" },
+      { id: "VD-1003", building: "C", floor: "3rd Floor" },
+      { id: "VD-1004", building: "D", floor: "4th Floor" }
+    ];
+
+    let currentDetector = null;
+
+    function addHistory(message) {
+      const entry = document.createElement("p");
+      entry.textContent = message;
+      historyBox.insertBefore(entry, historyBox.firstChild);
+    }
+
+    function simulateDetection() {
+      // Pick a random detector for simulation
+      currentDetector = detectors[Math.floor(Math.random() * detectors.length)];
+
+      // Update status
+      statusBox.textContent = "⚠️ Status: VAPE DETECTED!";
+      statusBox.className = "status alert";
+      resolveBtn.style.display = "inline-block";
+
+      // Show detector info
+      detectorInfo.style.display = "block";
+      detectorInfo.innerHTML = `
+        <span><strong>Device ID:</strong> ${currentDetector.id}</span>
+        <span><strong>Building:</strong> ${currentDetector.building}</span>
+        <span><strong>Floor:</strong> ${currentDetector.floor}</span>
+      `;
+
+      // Log detection
+      const now = new Date().toLocaleString();
+      addHistory(`⚠️ Vape detected at ${now} by ${currentDetector.id} (${currentDetector.building}, ${currentDetector.floor})`);
+    }
+
+    function resolveIssue() {
+      statusBox.textContent = "Status: SAFE";
+      statusBox.className = "status safe";
+      resolveBtn.style.display = "none";
+
+      // Hide detector info again
+      detectorInfo.style.display = "none";
+
+      // Log resolution
+      const now = new Date().toLocaleString();
+      addHistory(`✅ Issue resolved by group3 at ${now} for ${currentDetector.id}`);
+      currentDetector = null;
+    }
+  </script>
+
+</body>
+</html>
