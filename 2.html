@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geronimo Draftline 3</title>
+   <link rel="icon" type="image/x-icon" href="logo2.png">
   <style>
     body {
       margin: 0;
@@ -59,6 +60,7 @@
       padding: 15px 20px;
       font-size: 20px;
       font-weight: bold;
+      text-align: center;
     }
 
     .content {
@@ -133,6 +135,20 @@
       display: block;
       margin: 4px 0;
     }
+
+    /* Floating logos bottom right */
+    .logos-bottom-right {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      display: flex;
+      gap: 0px;
+      align-items: center;
+    }
+
+    .logos-bottom-right img {
+      height: 50px; /* adjust logo size */
+    }
   </style>
 </head>
 <body>
@@ -159,13 +175,18 @@
     </div>
   </div>
 
+  <!-- Logos fixed bottom right -->
+  <div class="logos-bottom-right">
+    <img src="logo.png" alt="Logo 1">
+    <img src="logo2.png" alt="Logo 2">
+  </div>
+
   <script>
     const statusBox = document.getElementById("statusBox");
     const historyBox = document.getElementById("history");
     const resolveBtn = document.getElementById("resolveBtn");
     const detectorInfo = document.getElementById("detectorInfo");
 
-    // Example detectors (you can expand this list or fetch from backend)
     const detectors = [
       { id: "VD-1001", building: "A", floor: "1st Floor" },
       { id: "VD-1002", building: "B", floor: "2nd Floor" },
@@ -182,15 +203,12 @@
     }
 
     function simulateDetection() {
-      // Pick a random detector for simulation
       currentDetector = detectors[Math.floor(Math.random() * detectors.length)];
 
-      // Update status
       statusBox.textContent = "⚠️ Status: VAPE DETECTED!";
       statusBox.className = "status alert";
       resolveBtn.style.display = "inline-block";
 
-      // Show detector info
       detectorInfo.style.display = "block";
       detectorInfo.innerHTML = `
         <span><strong>Device ID:</strong> ${currentDetector.id}</span>
@@ -198,7 +216,6 @@
         <span><strong>Floor:</strong> ${currentDetector.floor}</span>
       `;
 
-      // Log detection
       const now = new Date().toLocaleString();
       addHistory(`⚠️ Vape detected at ${now} by ${currentDetector.id} (${currentDetector.building}, ${currentDetector.floor})`);
     }
@@ -208,10 +225,8 @@
       statusBox.className = "status safe";
       resolveBtn.style.display = "none";
 
-      // Hide detector info again
       detectorInfo.style.display = "none";
 
-      // Log resolution
       const now = new Date().toLocaleString();
       addHistory(`✅ Issue resolved by group3 at ${now} for ${currentDetector.id}`);
       currentDetector = null;
