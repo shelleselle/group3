@@ -14,7 +14,7 @@
       height: 100vh;
     }
 
-    /* Sidebar */
+
     .sidebar {
       width: 280px;
       background: #1e1e2f;
@@ -47,7 +47,7 @@
       font-size: 14px;
     }
 
-    /* Main content */
+ 
     .main {
       flex-grow: 1;
       display: flex;
@@ -121,7 +121,7 @@
       display: none;
     }
     .btn-resolve:hover {
-      background: #b02a37;
+      background: #003A6C;
     }
 
     .detector-info {
@@ -136,7 +136,7 @@
       margin: 4px 0;
     }
 
-    /* Floating logos bottom right */
+ 
     .logos-bottom-right {
       position: fixed;
       bottom: 15px;
@@ -147,13 +147,13 @@
     }
 
     .logos-bottom-right img {
-      height: 50px; /* adjust logo size */
+      height: 50px; 
     }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar -->
+
   <div class="sidebar">
     <h2>Detection History</h2>
     <div class="history" id="history">
@@ -161,13 +161,11 @@
     </div>
   </div>
 
-  <!-- Main Content -->
   <div class="main">
     <div class="header">Vape Detection Dashboard</div>
     <div class="content">
       <div id="statusBox" class="status safe">Status: SAFE</div>
 
-      <!-- Detector Info (hidden until detection) -->
       <div id="detectorInfo" class="detector-info"></div>
 
       <button class="btn btn-simulate" onclick="simulateDetection()">Sample Simulation</button>
@@ -175,7 +173,6 @@
     </div>
   </div>
 
-  <!-- Logos fixed bottom right -->
   <div class="logos-bottom-right">
     <img src="logo.png" alt="Logo 1">
     <img src="logo2.png" alt="Logo 2">
@@ -235,4 +232,5 @@
 
 </body>
 </html>
+
 
