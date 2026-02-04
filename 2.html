@@ -178,59 +178,82 @@
     <img src="logo2.png" alt="Logo 2">
   </div>
 
-  <script>
-    const statusBox = document.getElementById("statusBox");
-    const historyBox = document.getElementById("history");
-    const resolveBtn = document.getElementById("resolveBtn");
-    const detectorInfo = document.getElementById("detectorInfo");
+<script>
+  const statusBox = document.getElementById("statusBox");
+  const historyBox = document.getElementById("history");
+  const resolveBtn = document.getElementById("resolveBtn");
+  const detectorInfo = document.getElementById("detectorInfo");
 
-    const detectors = [
-      { id: "VD-1001", building: "A", floor: "1st Floor" },
-      { id: "VD-1002", building: "B", floor: "2nd Floor" },
-      { id: "VD-1003", building: "C", floor: "3rd Floor" },
-      { id: "VD-1004", building: "D", floor: "4th Floor" }
-    ];
+  const detectors = [
+    { id: "VD-1001", building: "A", floor: "1st Floor" },
+    { id: "VD-1002", building: "B", floor: "2nd Floor" },
+    { id: "VD-1003", building: "C", floor: "3rd Floor" },
+    { id: "VD-1004", building: "D", floor: "4th Floor" }
+  ];
 
-    let currentDetector = null;
+  let currentDetector = null;
 
-    function addHistory(message) {
-      const entry = document.createElement("p");
-      entry.textContent = message;
-      historyBox.insertBefore(entry, historyBox.firstChild);
-    }
 
-    function simulateDetection() {
-      currentDetector = detectors[Math.floor(Math.random() * detectors.length)];
+  const alarmAudio = new Audio("4_beep_alarm.mp3");
+  alarmAudio.loop = true;
+  alarmAudio.preload = "auto";
 
-      statusBox.textContent = "⚠️ Status: VAPE DETECTED!";
-      statusBox.className = "status alert";
-      resolveBtn.style.display = "inline-block";
+  function playAlarm() {
+    alarmAudio.currentTime = 0;
+    alarmAudio.play().catch(err => {
+      console.log("Audio play blocked:", err);
+    });
+  }
 
-      detectorInfo.style.display = "block";
-      detectorInfo.innerHTML = `
-        <span><strong>Device ID:</strong> ${currentDetector.id}</span>
-        <span><strong>Building:</strong> ${currentDetector.building}</span>
-        <span><strong>Floor:</strong> ${currentDetector.floor}</span>
-      `;
+  function stopAlarm() {
+    alarmAudio.pause();
+    alarmAudio.currentTime = 0;
+  }
 
-      const now = new Date().toLocaleString();
-      addHistory(`⚠️ Vape detected at ${now} by ${currentDetector.id} (${currentDetector.building}, ${currentDetector.floor})`);
-    }
+  function addHistory(message) {
+    const entry = document.createElement("p");
+    entry.textContent = message;
+    historyBox.insertBefore(entry, historyBox.firstChild);
+  }
 
-    function resolveIssue() {
-      statusBox.textContent = "Status: SAFE";
-      statusBox.className = "status safe";
-      resolveBtn.style.display = "none";
+  function simulateDetection() {
+    currentDetector = detectors[Math.floor(Math.random() * detectors.length)];
 
-      detectorInfo.style.display = "none";
+    statusBox.textContent = "⚠️ Status: VAPE DETECTED!";
+    statusBox.className = "status alert";
+    resolveBtn.style.display = "inline-block";
 
-      const now = new Date().toLocaleString();
-      addHistory(`✅ Issue resolved by group3 at ${now} for ${currentDetector.id}`);
-      currentDetector = null;
-    }
-  </script>
+    detectorInfo.style.display = "block";
+    detectorInfo.innerHTML = `
+      <span><strong>Device ID:</strong> ${currentDetector.id}</span>
+      <span><strong>Building:</strong> ${currentDetector.building}</span>
+      <span><strong>Floor:</strong> ${currentDetector.floor}</span>
+    `;
+
+
+    playAlarm();
+
+    const now = new Date().toLocaleString();
+    addHistory(`⚠️ Vape detected at ${now} by ${currentDetector.id} (${currentDetector.building}, ${currentDetector.floor})`);
+  }
+
+  function resolveIssue() {
+    statusBox.textContent = "Status: SAFE";
+    statusBox.className = "status safe";
+    resolveBtn.style.display = "none";
+    detectorInfo.style.display = "none";
+
+
+    stopAlarm();
+
+    const now = new Date().toLocaleString();
+    addHistory(`✅ Issue resolved by group3 at ${now} for ${currentDetector?.id ?? "N/A"}`);
+    currentDetector = null;
+  }
+</script>
+
+
 
 </body>
 </html>
-
 
